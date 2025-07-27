@@ -15,15 +15,15 @@ Datasete ulaşmak isterseniz, https://github.com/paperswithcode/paperswithcode-d
 - _requirements.txt:_ Projenin çalışması için gerekli Python kütüphanelerini liste.
   
 ## Model Yapılandırması (default for T5)
-_Model type:_ T5 (Text-to-Text Transformer)
-_Encoder-decoder:_ Aktif
-_Number of Layers:_ 6 
-_Attention Head:_ 8 
-_D_model:_ 512 
-_Dropout:_ 0.1 
-_Max length:_ 256
-_Feedforward boyutu:_ 2048
-_Token size:_ 32,128
+- _Model type:_ T5 (Text-to-Text Transformer)
+- _Encoder-decoder:_ Aktif
+- _Number of Layers:_ 6
+- _Attention Head:_ 8
+- _D_model:_ 512
+- _Dropout:_ 0.1
+- _Max length:_ 256
+- _Feedforward boyutu:_ 2048
+- _Token size:_ 32,128
 
 ## Veri Ön İşleme (preprocess.py)
 Bu dosya, haber özetleme görevinde kullanılan CNN/DailyMail veri setinin model eğitimine hazır hale getirilmesi için gerekli ön işleme işlemlerini gerçekleştirir. Metin temizleme, 'summarize:' öneki ekleme, tokenizer ile sayısal vektöre dönüştürme ve padding/truncation işlemleri bu dosyada yapılır. T5 mimarisi, görev tanımını anlayabilmesi için her girişin başına 'summarize:' önekini bekler.
