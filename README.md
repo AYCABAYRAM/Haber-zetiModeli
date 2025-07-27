@@ -42,13 +42,13 @@ Bu dosya, haber özetleme görevinde kullanılan CNN/DailyMail veri setinin mode
 
 ## Eğitim Parametreleri (model.py)
 Bu dosyada, Hugging Face transformers kütüphanesi üzerinden t5-small modeli kullanılarak eğitim süreci gerçekleştirilmiştir. Seq2SeqTrainingArguments ile hiperparametreler tanımlanmış, ardından Seq2SeqTrainer sınıfı ile model eğitilmiş ve ./saved_model klasörüne kaydedilmiştir. Eğitimde hem eğitim hem de doğrulama veri kümeleri kullanılarak her epoch sonunda modelin performansı değerlendirilmiştir.
-_Batch size (train/eval):_ 8
-_Epoch:_ 3
-_Learning rate:_ 2e-5
-_Evaluation:_ her epoch sonunda
-_Weight decay:_ 0.01
-_Logging steps:_ 50
-_predict_with_generate:_ True (beam search ile tahmin üretimi)
+- _Batch size (train/eval):_ 8
+- _Epoch:_ 3
+- _Learning rate:_ 2e-5
+- _Evaluation:_ her epoch sonunda
+- _Weight decay:_ 0.01
+- _Logging steps:_ 50
+- _predict_with_generate:_ True (beam search ile tahmin üretimi)
 
  <img width="900" height="602" alt="image" src="https://github.com/user-attachments/assets/9fc96f23-9802-4255-a481-de59df0435f4" />
 
