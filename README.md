@@ -54,19 +54,20 @@ Bu dosyada, Hugging Face transformers kütüphanesi üzerinden t5-small modeli k
 
 
 Bu ekran çıktısında modelin eğitim sürecine ait son epoch’a kadar olan log verileri görülmektedir. Her adımda:
-•	_loss:_ Eğitim kaybı değerini temsil eder, örneğin 1.303 → modelin hatası azalarak öğrenmeye devam ettiğini gösterir.
-•	_grad_norm:_ Gradyanların büyüklüğüdür; bu değer çok yükselirse model öğrenmede dengesizlik yaşıyor olabilir, ancak burada stabil seyretmiştir.
-•	_learning_rate:_ Öğrenme oranı zamanla azalmış ve sonlara doğru 1e-7 mertebesine kadar düşürülmüştür (scheduler tarafından).
-•	_'epoch':_ Eğitim sürecinin hangi noktasında olunduğunu gösterir (örneğin 2.95 = 2. epoch’un %95’i tamamlanmış).
+- _loss:_ Eğitim kaybı değerini temsil eder, örneğin 1.303 → modelin hatası azalarak öğrenmeye devam ettiğini gösterir.
+- _grad_norm:_ Gradyanların büyüklüğüdür; bu değer çok yükselirse model öğrenmede dengesizlik yaşıyor olabilir, ancak burada stabil seyretmiştir.
+- _learning_rate:_ Öğrenme oranı zamanla azalmış ve sonlara doğru 1e-7 mertebesine kadar düşürülmüştür (scheduler tarafından).
+- _'epoch':_ Eğitim sürecinin hangi noktasında olunduğunu gösterir (örneğin 2.95 = 2. epoch’un %95’i tamamlanmış).
 
 Eğitim sonunda:
-•	_train_loss:_ 1.36 ile eğitim tamamlanmış, bu da modelin kabul edilebilir düzeyde öğrendiğini gösterir.
-•	_train_runtime:_ 4626 saniye (yaklaşık 77 dakika)
-•	_train_samples_per_second:_ 48.63 → eğitimin işlem hızı hakkında bilgi verir.
+-_train_loss:_ 1.36 ile eğitim tamamlanmış, bu da modelin kabul edilebilir düzeyde öğrendiğini gösterir.
+_train_runtime:_ 4626 saniye (yaklaşık 77 dakika)
+_train_samples_per_second:_ 48.63 → eğitimin işlem hızı hakkında bilgi verir.
 Bu log'lar, modelin eğitim boyunca istikrarlı şekilde öğrenme sürecini tamamladığını doğrular.
 
 ## Değerlendirme (review.py)
 Model 100 test haberinde __ROUGE-L skoru: 24.79__
+
 Test örneklerinde model özetleri, gerçek özetlere benzer fakat detay eksikliği ve zaman zaman fazla uzama problemi görülebilir.
 Model, özet üretiminde anlam bütünlüğünü genelde korumaktadır.
 Model, test setinden seçilen 6 farklı haber üzerinde değerlendirildi. Genel olarak özetler, haberin ana fikrini yansıtırken anlam bütünlüğü korunmuştur. Özellikle kısa ve tek odaklı haberlerde başarılı sonuçlar elde edilmiştir. Ancak detaylı içeriklerde bazı önemli bilgiler atlanmıştır. Model genellikle daha kısa ve sade özetler üretmeye eğilimlidir. Ortalama ROUGE-L skoru %24.79 olup, T5-small modelinin hızlı prototipleme için yeterli doğrulukta çıktılar sunduğu görülmüştür.
