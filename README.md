@@ -8,10 +8,10 @@ Datasete ulaşmak isterseniz, https://github.com/paperswithcode/paperswithcode-d
 ## Dosya Açıklamaları
 - __load_data.py:__ Veri setini yükler ve ilk 75K satırdan eğitim, 5K doğrulama, 2K test verisi oluşturur.
 - __preprocess.py:__ Temizleme ve tokenize işlemlerini yapar. T5 için uygun input-output formatını hazırlar.
-- model.py: T5-small modeli ile eğitimi gerçekleştirir. Eğitim sonrası model ve tokenizer ./saved_model klasörüne kaydedilir.
-- review.py: Eğitilen model test verisi üzerinde özet üretir, ROUGE-L skorunu hesaplar ve örnek çıktı üretir.
-- open_model.py: model.safetensors içeriğini `safetensors` kütüphanesi ile açmak için kullanılan kod.
-- saved_model/: Eğitim sonrası kaydedilen model, tokenizer ve config dosyalarının bulunduğu klasör.
+- __model.py:__ T5-small modeli ile eğitimi gerçekleştirir. Eğitim sonrası model ve tokenizer ./saved_model klasörüne kaydedilir.
+- __review.py:__ Eğitilen model test verisi üzerinde özet üretir, ROUGE-L skorunu hesaplar ve örnek çıktı üretir.
+- __open_model.py:__ model.safetensors içeriğini `safetensors` kütüphanesi ile açmak için kullanılan kod.
+- _saved_model/:_ Eğitim sonrası kaydedilen model, tokenizer ve config dosyalarının bulunduğu klasör.
 - requirements.txt: Projenin çalışması için gerekli Python kütüphanelerini liste.
   
 ## Model Yapılandırması (default for T5)
