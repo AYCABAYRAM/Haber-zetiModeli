@@ -3,41 +3,73 @@ import pandas as pd
 import evaluate
 import torch
 from tqdm import tqdm
+from load_data import test_dataset
 
-# Model ve tokenizer'ı yükle (senin eğittiğin)
-model = AutoModelForSeq2SeqLM.from_pretrained("./saved_model") #Daha önce eğittiğim ve ./saved_model klasörüne kaydettiğin T5-small modeli yeniden yükleniyor. AutoModelForSeq2SeqLM sınıfı seq2seq görevleri için (örneğin özetleme) uygun model yapısını çağırır.
-tokenizer = AutoTokenizer.from_pretrained("./saved_model") #tokenizer da yine aynı klasörden yükleniyor.
+model = AutoModelForSeq2SeqLM.from_pretrained("./saved_model") 
+tokenizer = AutoTokenizer.from_pretrained("./saved_model") 
+model.eval() 
 
-# Test setini oku
-test_df = pd.read_csv("C:\\gykmodule2\\hw\\hw6_yedek\\test.csv").dropna(subset=["article", "highlights"]) #dropna ifadesi, özet veya haber kısmı boş olan satırları siler.
-test_df = test_df.head(100)  # hızlı test için ilk 100 örnek alınabilir
+print("ROUGE Skoru Hesaplanıyor...")
+test_df = pd.read_csv("C:\\gykmodule2\\hw\\hw6_yedek\\test.csv").dropna(subset=["article", "highlights"]) 
+test_df = test_df.head(100)
+predictions = []
 
-articles = test_df["article"].tolist() #articles: Modelin özetleyeceği giriş metinleri (haberler).
-references = test_df["highlights"].tolist() #references: Gerçek özetler (etiketler) – değerlendirme için kullanılacak.
+articles = test_df["article"].tolist() 
+references = test_df["highlights"].tolist() 
 
-# Model özetleri üret
 predictions = []
 for article in tqdm(articles, desc="Özet Üretiliyor"):
-    input_text = "summarize: " + article #summarize t5 in görev tanımı için eklenir
+    input_text = "summarize: " + article 
     inputs = tokenizer(input_text, return_tensors="pt", max_length=256, truncation=True).to(model.device)
     with torch.no_grad():
-        outputs = model.generate(**inputs, max_length=128, num_beams=4, early_stopping=True) #model.generate(...): Özet üretir.
-    summary = tokenizer.decode(outputs[0], skip_special_tokens=True) #decode(...): Sayıları tekrar metne çevirir.
+        outputs = model.generate(**inputs, max_length=128, num_beams=4, early_stopping=True) 
+    summary = tokenizer.decode(outputs[0], skip_special_tokens=True) 
     predictions.append(summary)
 
-# ROUGE hesapla
-rouge = evaluate.load("rouge") #ROUGE (Recall-Oriented Understudy for Gisting Evaluation): Otomatik özetleme kalitesini ölçen metrik.
+rouge = evaluate.load("rouge") 
 results = rouge.compute(predictions=predictions, references=references, use_stemmer=True)
-rouge_l_score = round(results["rougeL"] * 100, 2) #rougeL: Cümledeki en uzun ortak alt dizi (Longest Common Subsequence) üzerinden ölçüm yapar. Skor yüzdeye çevrilip yuvarlanır.
+rouge_l_score = round(results["rougeL"] * 100, 2) 
 
-# Sonuçları yazdır
-print("\nROUGE-L Skoru:", rouge_l_score)
-print("\nÖrnek Çıktı:")
-for i in range(5):
-    print(f"\n--- Örnek {i+1} ---")
-    print("Haber:", articles[i][:200], "...") #haber metninin ilk 200 karakteri
-    print("Gerçek Özet:", references[i]) #gerçek özet
-    print("Model Özeti :", predictions[i]) #modelin özeti
+def summarize_article(article):
 
+    inputs = tokenizer("summarize: " + article, return_tensors="pt", max_length=256, truncation=True)
+    
+    with torch.no_grad(): 
+        summary_ids = model.generate(
+            inputs["input_ids"], 
+            max_length=64, 
+            min_length=10, 
+            length_penalty=2.0, 
+            num_beams=4, 
+            early_stopping=True 
+        )
 
+    generated_summary = tokenizer.decode(summary_ids[0], skip_special_tokens=True).strip() 
+    return generated_summary
 
+    """Verilen test indeksindeki haberi özetler ve karşılaştırmalı çıktı verir."""
+def summarize_and_compare(index):
+    article = test_df["article"][index]
+    reference = test_df["highlights"][index]
+    generated = summarize_article(article)
+
+    print(f"\nÖRNEK {index + 1}")
+    print("🔹 ORİJİNAL HABER (İlk 300 karakter):")
+    print(article[:300] + "...\n")
+    
+    print("GERÇEK ÖZET:")
+    print(reference + "\n")
+    
+    print("MODEL TARAFINDAN ÜRETİLEN ÖZET:")
+    print(generated + "\n")
+    
+    print(f"Uzunluk karşılaştırması: Model ({len(generated.split())} kelime) | Gerçek ({len(reference.split())} kelime)")
+
+test_indices = [0, 7, 15, 23, 45, 66]
+
+print("CNN NEWS SUMMARIZATION KARŞILAŞTIRMALI ÖRNEKLER")
+
+for idx in test_indices:
+    summarize_and_compare(idx)
+
+print("\nToplam", len(test_indices), "örnek başarıyla işlendi.")
