@@ -59,10 +59,10 @@ Bu ekran çıktısında modelin eğitim sürecine ait son epoch’a kadar olan l
 - _learning_rate:_ Öğrenme oranı zamanla azalmış ve sonlara doğru 1e-7 mertebesine kadar düşürülmüştür (scheduler tarafından).
 - _'epoch':_ Eğitim sürecinin hangi noktasında olunduğunu gösterir (örneğin 2.95 = 2. epoch’un %95’i tamamlanmış).
 
-Eğitim sonunda:
--_train_loss:_ 1.36 ile eğitim tamamlanmış, bu da modelin kabul edilebilir düzeyde öğrendiğini gösterir.
-_train_runtime:_ 4626 saniye (yaklaşık 77 dakika)
-_train_samples_per_second:_ 48.63 → eğitimin işlem hızı hakkında bilgi verir.
+Eğitim sonunda:  
+-_train_loss:_ 1.36 ile eğitim tamamlanmış, bu da modelin kabul edilebilir düzeyde öğrendiğini gösterir.  
+-_train_runtime:_ 4626 saniye (yaklaşık 77 dakika)  
+-_train_samples_per_second:_ 48.63 → eğitimin işlem hızı hakkında bilgi verir.
 Bu log'lar, modelin eğitim boyunca istikrarlı şekilde öğrenme sürecini tamamladığını doğrular.
 
 ## Değerlendirme (review.py)
@@ -75,12 +75,12 @@ Ortalama ROUGE-L skoru %24.79 olup, T5-small modelinin hızlı prototipleme içi
 
 <img width="900" height="284" alt="image" src="https://github.com/user-attachments/assets/78153c10-b9ab-47a9-9a56-a54a9114d5fd" />
 
-## Gereksinimler (requirements.txt)
-transformers==4.35.2
-datasets==2.17.1
-evaluate==0.4.1
-pandas==2.2.2
-torch==2.1.2
+## Gereksinimler (requirements.txt)  
+transformers==4.35.2  
+datasets==2.17.1  
+evaluate==0.4.1  
+pandas==2.2.2  
+torch==2.1.2  
 tqdm==4.66.2
 
 ## Notlar
