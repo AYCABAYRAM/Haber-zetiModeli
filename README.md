@@ -1,10 +1,11 @@
-##CNN/DailyMail Haber Özetleme Projesi - README
-#Proje Tanımı
+## CNN/DailyMail Haber Özetleme Projesi - README
+# Proje Tanımı
 Bu projede CNN/DailyMail veri seti kullanılarak uzun haber metinlerinden otomatik olarak kısa özetler çıkarabilen bir yapay zeka sistemi geliştirildi. Bu amaç doğrultusunda Google tarafından geliştirilen ve NLP alanında yaygın olarak kullanılan T5 mimarisine sahip 't5-small' modeli tercih edilmiştir. Model eğitim sonrası değerlendirilerek ROUGE-L skoru ile ölçülmüştür. 
 Datasete ulaşmak isterseniz, https://github.com/paperswithcode/paperswithcode-data?tab=readme-ov-file linkini kullanabilirsiniz.
+
 <img width="900" height="345" alt="image" src="https://github.com/user-attachments/assets/6504d7b8-63e2-4ad3-91bc-0a7dfef769e7" />
  
-#Dosya Açıklamaları
+# Dosya Açıklamaları
 - load_data.py: Veri setini yükler ve ilk 75K satırdan eğitim, 5K doğrulama, 2K test verisi oluşturur.
 - preprocess.py: Temizleme ve tokenize işlemlerini yapar. T5 için uygun input-output formatını hazırlar.
 - model.py: T5-small modeli ile eğitimi gerçekleştirir. Eğitim sonrası model ve tokenizer ./saved_model klasörüne kaydedilir.
@@ -13,7 +14,7 @@ Datasete ulaşmak isterseniz, https://github.com/paperswithcode/paperswithcode-d
 - saved_model/: Eğitim sonrası kaydedilen model, tokenizer ve config dosyalarının bulunduğu klasör.
 - requirements.txt: Projenin çalışması için gerekli Python kütüphanelerini liste.
   
-#Model Yapılandırması (default for T5)
+# Model Yapılandırması (default for T5)
 Model type: T5 (Text-to-Text Transformer)
 Encoder-decoder: Aktif
 Number of Layers: 6 
@@ -24,7 +25,7 @@ Max length: 256
 Feedforward boyutu: 2048
 Token size: 32,128
 
-#Veri Ön İşleme (preprocess.py)
+# Veri Ön İşleme (preprocess.py)
 Bu dosya, haber özetleme görevinde kullanılan CNN/DailyMail veri setinin model eğitimine hazır hale getirilmesi için gerekli ön işleme işlemlerini gerçekleştirir. Metin temizleme, 'summarize:' öneki ekleme, tokenizer ile sayısal vektöre dönüştürme ve padding/truncation işlemleri bu dosyada yapılır. T5 mimarisi, görev tanımını anlayabilmesi için her girişin başına 'summarize:' önekini bekler.
 Uygulanan adımlar şunlardır:
 1. Metin Temizliği: Tüm metinler küçük harfe çevrilir, fazla boşluklar kaldırılır, noktalama işaretleri temizlenir.
@@ -35,9 +36,10 @@ Uygulanan adımlar şunlardır:
 Çıktılar:
 - Tokenized veri kümeleri: tokenized_train, tokenized_val, tokenized_test
 - Her bir örnek, input_ids (giriş) ve labels (hedef özet) vektörlerini içerir.
+  
  <img width="900" height="487" alt="image" src="https://github.com/user-attachments/assets/28619429-e425-43cd-84b4-b86cb22342e5" />
 
-#Eğitim Parametreleri (model.py)
+# Eğitim Parametreleri (model.py)
 Bu dosyada, Hugging Face transformers kütüphanesi üzerinden t5-small modeli kullanılarak eğitim süreci gerçekleştirilmiştir. Seq2SeqTrainingArguments ile hiperparametreler tanımlanmış, ardından Seq2SeqTrainer sınıfı ile model eğitilmiş ve ./saved_model klasörüne kaydedilmiştir. Eğitimde hem eğitim hem de doğrulama veri kümeleri kullanılarak her epoch sonunda modelin performansı değerlendirilmiştir.
 Batch size (train/eval): 8
 Epoch: 3
@@ -61,7 +63,7 @@ Eğitim sonunda:
 •	train_samples_per_second: 48.63 → eğitimin işlem hızı hakkında bilgi verir.
 Bu log'lar, modelin eğitim boyunca istikrarlı şekilde öğrenme sürecini tamamladığını doğrular.
 
-#Değerlendirme (review.py)
+# Değerlendirme (review.py)
 Model 100 test haberinde ROUGE-L skoru: yaklaşık 24.79
 Test örneklerinde model özetleri, gerçek özetlere benzer fakat detay eksikliği ve zaman zaman fazla uzama problemi görülebilir.
 Model, özet üretiminde anlam bütünlüğünü genelde korumaktadır.
@@ -69,7 +71,7 @@ Model, test setinden seçilen 6 farklı haber üzerinde değerlendirildi. Genel 
 
 <img width="900" height="284" alt="image" src="https://github.com/user-attachments/assets/78153c10-b9ab-47a9-9a56-a54a9114d5fd" />
 
-#Gereksinimler (requirements.txt)
+# Gereksinimler (requirements.txt)
 transformers==4.35.2
 datasets==2.17.1
 evaluate==0.4.1
@@ -79,7 +81,7 @@ tqdm==4.66.2
 Notlar
 Modelin eğitimi sırasında başlangıçta bazı parametreler düşük tutulmuştur. per_device_train_batch_size değeri ilk olarak 2 idi, ancak eğitim süresini kısaltmak ve donanımı daha verimli kullanmak için 8'e çıkarılmıştır. Benzer şekilde, logging_steps değeri 10 iken, konsol çıktılarının daha seyrek olmasını sağlamak adına 50'ye yükseltilmiştir. Ayrıca, giriş metinleri için kullanılan max_length değeri 512 idi; bellek ve işlem süresi optimizasyonu amacıyla bu değer 256’ya düşürülmüştür. Bu ayarlamalar, modelin daha hızlı ve stabil eğitilmesini sağlamıştır.
 
-#Kullanım Talimatları (Nasıl Çalıştırılır?)
+# Kullanım Talimatları (Nasıl Çalıştırılır?)
 
 Proje dosyaları sırasıyla aşağıdaki şekilde çalıştırılmalıdır:
 
