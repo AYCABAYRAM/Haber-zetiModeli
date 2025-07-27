@@ -29,10 +29,10 @@ Datasete ulaşmak isterseniz, https://github.com/paperswithcode/paperswithcode-d
 Bu dosya, haber özetleme görevinde kullanılan CNN/DailyMail veri setinin model eğitimine hazır hale getirilmesi için gerekli ön işleme işlemlerini gerçekleştirir. Metin temizleme, 'summarize:' öneki ekleme, tokenizer ile sayısal vektöre dönüştürme ve padding/truncation işlemleri bu dosyada yapılır. T5 mimarisi, görev tanımını anlayabilmesi için her girişin başına 'summarize:' önekini bekler.
 
 ***Uygulanan adımlar şunlardır:***
-__1. Metin Temizliği:__ Tüm metinler küçük harfe çevrilir, fazla boşluklar kaldırılır, noktalama işaretleri temizlenir.
-__2. Giriş Formatı:__ Her haber metninin başına 'summarize:' eklenerek T5 modeline uygun hale getirilir.
-__3. Tokenleştirme:__ Giriş metni `max_length=256` ile, özet metni ise `max_length=128` ile tokenize edilir. Uzunluk limiti aşan veriler `truncation=True` ile kesilir, eksik olanlar `padding='max_length'` ile doldurulur.
-__4. Dataset Dönüşümü:__ Hugging Face `map()` fonksiyonu ile bu ön işleme fonksiyonu tüm veri kümesine (train/val/test) uygulanır.
+1. __Metin Temizliği:__ Tüm metinler küçük harfe çevrilir, fazla boşluklar kaldırılır, noktalama işaretleri temizlenir.
+2. __Giriş Formatı:__ Her haber metninin başına 'summarize:' eklenerek T5 modeline uygun hale getirilir.
+3. __Tokenleştirme:__ Giriş metni `max_length=256` ile, özet metni ise `max_length=128` ile tokenize edilir. Uzunluk limiti aşan veriler `truncation=True` ile kesilir, eksik olanlar `padding='max_length'` ile doldurulur.
+4. __Dataset Dönüşümü:__ Hugging Face `map()` fonksiyonu ile bu ön işleme fonksiyonu tüm veri kümesine (train/val/test) uygulanır.
 
 ***Çıktılar:***
 - Tokenized veri kümeleri: tokenized_train, tokenized_val, tokenized_test
