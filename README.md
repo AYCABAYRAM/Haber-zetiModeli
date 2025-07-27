@@ -66,11 +66,12 @@ _train_samples_per_second:_ 48.63 → eğitimin işlem hızı hakkında bilgi ve
 Bu log'lar, modelin eğitim boyunca istikrarlı şekilde öğrenme sürecini tamamladığını doğrular.
 
 ## Değerlendirme (review.py)
-Model 100 test haberinde __ROUGE-L skoru: 24.79__
+Model 100 test haberinde __ROUGE-L skoru: 24.79__ değerlendirme skoruna sahiptir.
 
-Test örneklerinde model özetleri, gerçek özetlere benzer fakat detay eksikliği ve zaman zaman fazla uzama problemi görülebilir.
-Model, özet üretiminde anlam bütünlüğünü genelde korumaktadır.
-Model, test setinden seçilen 6 farklı haber üzerinde değerlendirildi. Genel olarak özetler, haberin ana fikrini yansıtırken anlam bütünlüğü korunmuştur. Özellikle kısa ve tek odaklı haberlerde başarılı sonuçlar elde edilmiştir. Ancak detaylı içeriklerde bazı önemli bilgiler atlanmıştır. Model genellikle daha kısa ve sade özetler üretmeye eğilimlidir. Ortalama ROUGE-L skoru %24.79 olup, T5-small modelinin hızlı prototipleme için yeterli doğrulukta çıktılar sunduğu görülmüştür.
+Test örneklerinde model özetleri, gerçek özetlere benzer fakat detay eksikliği ve zaman zaman fazla uzama problemi görülebilir.  
+Model, özet üretiminde anlam bütünlüğünü genelde korumaktadır.  
+Model, test setinden seçilen 6 farklı haber üzerinde değerlendirildi. Genel olarak özetler, haberin ana fikrini yansıtırken anlam bütünlüğü korunmuştur. Özellikle kısa ve tek odaklı haberlerde başarılı sonuçlar elde edilmiştir. Ancak detaylı içeriklerde bazı önemli bilgiler atlanmıştır. Model genellikle daha kısa ve sade özetler üretmeye eğilimlidir.  
+Ortalama ROUGE-L skoru %24.79 olup, T5-small modelinin hızlı prototipleme için yeterli doğrulukta çıktılar sunduğu görülmüştür.
 
 <img width="900" height="284" alt="image" src="https://github.com/user-attachments/assets/78153c10-b9ab-47a9-9a56-a54a9114d5fd" />
 
@@ -83,7 +84,11 @@ torch==2.1.2
 tqdm==4.66.2
 
 ## Notlar
-Modelin eğitimi sırasında başlangıçta bazı parametreler düşük tutulmuştur. per_device_train_batch_size değeri ilk olarak 2 idi, ancak eğitim süresini kısaltmak ve donanımı daha verimli kullanmak için 8'e çıkarılmıştır. Benzer şekilde, logging_steps değeri 10 iken, konsol çıktılarının daha seyrek olmasını sağlamak adına 50'ye yükseltilmiştir. Ayrıca, giriş metinleri için kullanılan max_length değeri 512 idi; bellek ve işlem süresi optimizasyonu amacıyla bu değer 256’ya düşürülmüştür. Bu ayarlamalar, modelin daha hızlı ve stabil eğitilmesini sağlamıştır.
+Modelin eğitimi sırasında başlangıçta bazı parametreler düşük tutulmuştur.  
+per_device_train_batch_size değeri ilk olarak 2 idi, ancak eğitim süresini kısaltmak ve donanımı daha verimli kullanmak için 8'e çıkarılmıştır.  
+Benzer şekilde, logging_steps değeri 10 iken, konsol çıktılarının daha seyrek olmasını sağlamak adına 50'ye yükseltilmiştir.  
+Ayrıca, giriş metinleri için kullanılan max_length değeri 512 idi; bellek ve işlem süresi optimizasyonu amacıyla bu değer 256’ya düşürülmüştür.  
+Bu ayarlamalar, modelin daha hızlı ve stabil eğitilmesini sağlamıştır.
 
 ## Kullanım Talimatları (Nasıl Çalıştırılır?)
 Proje dosyaları sırasıyla aşağıdaki şekilde çalıştırılmalıdır:
